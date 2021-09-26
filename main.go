@@ -62,8 +62,8 @@ func homePage(w http.ResponseWriter, r *http.Request){
 
 func apiPage(w http.ResponseWriter, r *http.Request){
 	res := getAllPokemons()
-   //fmt.Fprintf(w, res)
-   fmt.Println(res.Pokemon[0].Height)
+	//fmt.Fprintf(w, res)
+	fmt.Println(res.Pokemon[0].Height)
 }
 
 func apiTest(w http.ResponseWriter, r *http.Request){
@@ -74,10 +74,10 @@ func apiTest(w http.ResponseWriter, r *http.Request){
 
 //handling all endpoints
 func handleRequests() {
-    http.HandleFunc("/", homePage)
+	http.HandleFunc("/", homePage)
 	http.HandleFunc("/api", apiPage)
 	http.HandleFunc("/test", apiTest)
-    log.Fatal(http.ListenAndServe(":3000", nil))
+	log.Fatal(http.ListenAndServe(":3000", nil))
 }
 
 //main
