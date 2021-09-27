@@ -50,7 +50,7 @@ func errorCheck(err error) {
 
 // full data return
 func getAllPokemons() (ap *AllPokemons) {
-	file, err := os.OpenFile("pok2.json", os.O_RDWR|os.O_APPEND, 0666)
+	file, err := os.OpenFile("pok2.json", os.O_RDONLY, 0666)
 	errorCheck(err)
 	b, err := ioutil.ReadAll(file)
 	var allPkms AllPokemons
@@ -62,8 +62,8 @@ func getAllPokemons() (ap *AllPokemons) {
 
 // Pages (home, api , apitest)
 func homePage(w http.ResponseWriter, r *http.Request){
-    fmt.Fprintf(w, "Welcome to the HomePage!")
-    fmt.Println("/root  homePage used")
+	fmt.Fprintf(w, "Welcome to the HomePage!")
+	fmt.Println("/root  homePage used")
 }
 
 func apiPage(w http.ResponseWriter, r *http.Request){
@@ -74,18 +74,18 @@ func apiPage(w http.ResponseWriter, r *http.Request){
 
 func apiTest(w http.ResponseWriter, r *http.Request){
 	d,_ := ioutil.ReadFile("pok2.json");
-    rawMsg := json.RawMessage(string(d))
-    var objmap map[string]*json.RawMessage
-    err := json.Unmarshal(rawMsg, &objmap)
-    if err != nil {
-      fmt.Println(err)
-    }
+	rawMsg := json.RawMessage(string(d))
+	var objmap map[string]*json.RawMessage
+	err := json.Unmarshal(rawMsg, &objmap)
+	if err != nil {
+		fmt.Println(err)
+	}
 	w.Header().Set("Content-Type", "application/json")
-    w.Header().Set("Access-Control-Allow-Origin", "*")
-    json.NewEncoder(w).Encode(objmap["pokemon"])
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	json.NewEncoder(w).Encode(objmap["pokemon"])
 	fmt.Println("Full api loaded @ /test")
-    //fmt.Fprintf(w, "show api")
-    //fmt.Fprintf(w, "/test api")
+	//fmt.Fprintf(w, "show api")
+	//fmt.Fprintf(w, "/test api")
 }
 
 func getTableData(w http.ResponseWriter, r *http.Request) {
@@ -110,5 +110,5 @@ func handleRequests() {
 
 //main
 func main() {
-    handleRequests()
+	handleRequests()
 }
