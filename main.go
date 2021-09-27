@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"os"
+	"html/template"
 )
 
 type AllPokemons struct {
@@ -63,20 +64,44 @@ func homePage(w http.ResponseWriter, r *http.Request){
 func apiPage(w http.ResponseWriter, r *http.Request){
 	res := getAllPokemons()
 	//fmt.Fprintf(w, res)
-	fmt.Println(res.Pokemon[0].Height)
+	fmt.Println(res.Pokemon[0])
 }
 
 func apiTest(w http.ResponseWriter, r *http.Request){
 	
-    fmt.Fprintf(w, "/test api")
+	d,_ := ioutil.ReadFile("pok2.json");
+
+    rawMsg := json.RawMessage(string(d))
+    var objmap map[string]*json.RawMessage
+    err := json.Unmarshal(rawMsg, &objmap)
+    if err != nil {
+      fmt.Println(err)
+    }
+    //fmt.Println(objmap)
+	w.Header().Set("Content-Type", "application/json")
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    json.NewEncoder(w).Encode(objmap["pokemon"])
+
+    //fmt.Fprintf(w, "show api")
+    //fmt.Println("apiPage used")
+    //fmt.Fprintf(w, "/test api")
     //fmt.Println("testApiPage used")
+}
+
+func ShowHome(w http.ResponseWriter, r *http.Request) {
+	resp := getAllPokemons()
+	t, err := template.ParseFiles("templates/index.html")
+	errorCheck(err)
+	t.Execute(w, resp)
+	//http.ServeFile(w, r, "templates/index.html")
 }
 
 //handling all endpoints
 func handleRequests() {
 	http.HandleFunc("/", homePage)
+	http.HandleFunc("/home", ShowHome)
 	http.HandleFunc("/api", apiPage)
-	http.HandleFunc("/test", apiTest)
+	http.HandleFunc("/getTableData", apiTest)
 	log.Fatal(http.ListenAndServe(":3000", nil))
 }
 

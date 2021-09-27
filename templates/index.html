@@ -1,10 +1,18 @@
 
 <html>
     <head>
-        <title>User info</title>
+        <title>Poke info</title>
     </head>
     <body>
-        <h1>heyyy</h1>
+        {{range .Pokemon}}
+        <div><h3> ID:{{ .ID }} </h3></div>
+        <div> First Name: {{ .Name }}</div>
+        <div> Last Name: 
+            {{range .Type}}
+            {{.}}
+            {{end}}
+        </div>
+        {{end}}
     </body>
 </html>
     
