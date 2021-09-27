@@ -1,0 +1,15 @@
+body {
+  background-color: rgb(245, 234, 237);
+}
+h1 {
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+p {
+  color: rgb(245, 237, 237);
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}

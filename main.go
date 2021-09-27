@@ -10,6 +10,8 @@ import (
 	"html/template"
 )
 
+
+//struct json out
 type AllPokemons struct {
 	Pokemon []struct {
 	  ID            int       `json:"id"`
@@ -38,12 +40,15 @@ type AllPokemons struct {
 	} `json:"pokemon"`
   }
 
+
+// error checking
 func errorCheck(err error) {
 	if err != nil {
 		fmt.Println(err)
 	}
 }
 
+// full data return
 func getAllPokemons() (ap *AllPokemons) {
 	file, err := os.OpenFile("pok2.json", os.O_RDWR|os.O_APPEND, 0666)
 	errorCheck(err)
@@ -58,50 +63,48 @@ func getAllPokemons() (ap *AllPokemons) {
 // Pages (home, api , apitest)
 func homePage(w http.ResponseWriter, r *http.Request){
     fmt.Fprintf(w, "Welcome to the HomePage!")
-    fmt.Println("homePage used")
+    fmt.Println("/root  homePage used")
 }
 
 func apiPage(w http.ResponseWriter, r *http.Request){
 	res := getAllPokemons()
-	//fmt.Fprintf(w, res)
+	fmt.Fprintf(w, "/api apiPage used - check console")
 	fmt.Println(res.Pokemon[0])
 }
 
 func apiTest(w http.ResponseWriter, r *http.Request){
-	
 	d,_ := ioutil.ReadFile("pok2.json");
-
     rawMsg := json.RawMessage(string(d))
     var objmap map[string]*json.RawMessage
     err := json.Unmarshal(rawMsg, &objmap)
     if err != nil {
       fmt.Println(err)
     }
-    //fmt.Println(objmap)
 	w.Header().Set("Content-Type", "application/json")
     w.Header().Set("Access-Control-Allow-Origin", "*")
     json.NewEncoder(w).Encode(objmap["pokemon"])
-
+	fmt.Println("Full api loaded @ /test")
     //fmt.Fprintf(w, "show api")
-    //fmt.Println("apiPage used")
     //fmt.Fprintf(w, "/test api")
-    //fmt.Println("testApiPage used")
 }
 
-func ShowHome(w http.ResponseWriter, r *http.Request) {
+func getTableData(w http.ResponseWriter, r *http.Request) {
 	resp := getAllPokemons()
-	t, err := template.ParseFiles("templates/index.html")
+	t, err := template.ParseFiles("templates/table.html")
 	errorCheck(err)
 	t.Execute(w, resp)
+	fmt.Println("Table data loaded @ /getTableData")
 	//http.ServeFile(w, r, "templates/index.html")
 }
 
 //handling all endpoints
 func handleRequests() {
 	http.HandleFunc("/", homePage)
-	http.HandleFunc("/home", ShowHome)
+	//fix style paths in html
+	http.Handle("/styles/", http.FileServer(http.Dir("./templates")))
+	http.HandleFunc("/getTableData", getTableData)
 	http.HandleFunc("/api", apiPage)
-	http.HandleFunc("/getTableData", apiTest)
+	http.HandleFunc("/test", apiTest)
 	log.Fatal(http.ListenAndServe(":3000", nil))
 }
 

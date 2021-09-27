@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="./styles/style.css">
+    </head>
+<body>
+    <h1>PokeDex data Table</h1>
+<table border="2" class="center">
+    <tr>
+        <th>ID</th>   
+        <th>Name</th>
+        <th>TYPE</th>
+        <th>WEAKNESSES</th>
+    </tr>
+    {{ range .Pokemon}}
+        <tr>
+            <td>{{ .ID }}</td>
+            <td>{{ .Name }}</td>
+            <td>{{ range $index, $element := .Type}}
+                    {{if $index}},{{end}}
+                    {{$element}}
+                {{end}}
+            </td>
+            <td>
+                {{ range $index, $element := .Weaknesses}}
+                    {{if $index}},{{end}}
+                    {{$element}}
+                {{end}}
+            </td>
+        </tr>
+    {{ end}}
+</table> 
+</body>
+</html>
