@@ -1,15 +1,94 @@
+/* reset */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
+
 body {
-  background-color: rgb(245, 234, 237);
+  background-color: rgb(229, 229, 229);
 }
 h1 {
+  font-family: 'satisfy',cursive;
+  font-weight: 900;
+  font-size: 80px;
+  color: rgb(0, 149, 189);
+  text-align: center;
+}
+h2 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 900;
   color: rgb(0, 0, 0);
   text-align: center;
 }
 p {
-  color: rgb(245, 237, 237);
+  color: rgb(180, 25, 25);
+}
+
+
+/* header */
+header{
+  padding: 20px 20px;
+  /* position: absolute; */
+  z-index: 2;
+  width: 100%;
+  font-family: 'Syne Mono', monospace;
+  background: linear-gradient(to bottom, rgb(44, 121, 156) 5%, rgba(165, 182, 189, 0) 100%)
+}
+@media (max-width: 767px){
+  header {
+      padding: 20px;
+  }
+}
+header .logo img{
+  width: 42px;
+}
+@media (max-width: 767px){
+  header .logo img{
+      width: 24px;
+  }
+}
+header nav{ 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.menu{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* background-color: rgb(5, 96, 121); */
+  display: flex;
+  justify-content: space-around;
+}
+
+li {
+  float:left;
+  background-color: rgb(11, 101, 126);
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  color: white;
+  background-color: rgb(1, 60, 77);
+  text-decoration: none;
 }
 
 .center {
   margin-left: auto;
   margin-right: auto;
 }
+

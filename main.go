@@ -8,6 +8,8 @@ import (
 	"encoding/json"
 	"os"
 	"html/template"
+	//"go/build"
+	//"./handlers"
 )
 
 
@@ -50,7 +52,7 @@ func errorCheck(err error) {
 
 // full data return
 func getAllPokemons() (ap *AllPokemons) {
-	file, err := os.OpenFile("pok2.json", os.O_RDONLY, 0666)
+	file, err := os.OpenFile("pok2.json", os.O_RDONLY, 0444)
 	errorCheck(err)
 	b, err := ioutil.ReadAll(file)
 	var allPkms AllPokemons
@@ -62,7 +64,8 @@ func getAllPokemons() (ap *AllPokemons) {
 
 // Pages (home, api , apitest)
 func homePage(w http.ResponseWriter, r *http.Request){
-	fmt.Fprintf(w, "Welcome to the HomePage!")
+	//fmt.Fprintf(w, "Welcome to the HomePage!")
+	http.ServeFile(w, r, "templates/home.html")
 	fmt.Println("/root  homePage used")
 }
 
@@ -102,13 +105,21 @@ func handleRequests() {
 	http.HandleFunc("/", homePage)
 	//fix style paths in html
 	http.Handle("/styles/", http.FileServer(http.Dir("./templates")))
+	//http.Handle("/handlers/", http.FileServer(http.Dir("../")))
 	http.HandleFunc("/getTableData", getTableData)
 	http.HandleFunc("/api", apiPage)
 	http.HandleFunc("/test", apiTest)
 	log.Fatal(http.ListenAndServe(":3000", nil))
 }
 
+
 //main
 func main() {
+	// gopath := os.Getenv("GOPATH")
+    // if gopath == "" {
+    //     gopath = build.Default.GOPATH
+    // }
+    // fmt.Println(gopath)
 	handleRequests()
+	//handlers.haiName()
 }

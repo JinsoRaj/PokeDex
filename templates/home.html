@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="./styles/style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+        </script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js">
+        </script>
+    </head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="https://te.legra.ph/file/6ab552142c2cc377741ae.png" alt="Logo">
+                </a>
+            </div>
+            <div class="navbar">
+                <ul class="menu">
+                    <li><a href="/getTableData">Pokemon Data</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="hero">
+        <h1>PokeDex</h1>
+        <div class="container">
+            <form id="infoform" class="form-inline" method="POST" action="/getTableData">
+                <label for="name">Name:</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="name" 
+                       placeholder="Enter Pokemon name" 
+                       name="name">
+                <button type="submit" class="btn btn-danger">Get Info</button>
+            </form>
+            <!-- <h4>Horizontal Form</h4> -->
+            <br>
+            <form id="dropform" class="form-inline" action="/action_page">
+                <label for="poketype">Type:</label>
+                <select class="form-control" id="poketype" name="poketype">
+                    <option>Default select</option>
+                  </select>
+                <button type="submit" class="btn btn-danger">Get Info</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
