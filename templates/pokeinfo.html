@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="./styles/style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+        </script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js">
+        </script>
+    </head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="/">
+                    <img src="https://te.legra.ph/file/6ab552142c2cc377741ae.png" alt="Logo">
+                </a>
+            </div>
+            <div class="navbar">
+                <ul class="menu">
+                    <li><a href="/getTableData">Pokemon Data</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="hero">
+        <h1>Pokemon Info</h1>
+        <div class="info-search" style="height:420px; margin:0 auto; border:1px solid rgb(9, 135, 170); background: linear-gradient(to right, #D5E3DF 0%, #88D2D5 100%, #A4CED0 100%); border-radius:5%; padding-top: 50px; margin-left: 160px; margin-right: 160px; box-shadow: 5px 5px 15px 5px #000000;">
+        <div class="container">
+            <p style="float: left;">
+                ID: {{.Num}} <br>
+                Name: <strong>{{.Name}}</strong><br>
+                Type: {{ range $index, $element := .Type}}
+                        {{if $index}},{{end}}
+                    {{$element}}
+                    {{end}}<br>
+                Height: {{.Height}}<br>
+                Weight: {{.Weight}}<br>
+                Evolution: {{ range $index, $element := .PrevEvolution}}
+                                {{if $index}},{{end}}
+                            {{$element}}
+                            {{end}}
+            </p>
+            <p style="margin-left: 300px;">
+                <img src="{{.Img}}" alt="image">
+            </p>
+            
+        </div>
+        </div>
+    </div>
+</body>
+</html>

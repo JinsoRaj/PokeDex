@@ -12,7 +12,7 @@
     <header>
         <nav>
             <div class="logo">
-                <a href="index.html">
+                <a href="/">
                     <img src="https://te.legra.ph/file/6ab552142c2cc377741ae.png" alt="Logo">
                 </a>
             </div>
@@ -25,9 +25,10 @@
     </header>
     <div class="hero">
         <h1>PokeDex</h1>
+        <div class="info-search" style="height:600px; margin:0 auto; border:1px solid rgb(9, 135, 170); background-color: rgba(176, 198, 208, 1); border-radius:5%; padding-top: 50px; margin-left: 80px; margin-right: 80px; box-shadow: 5px 5px 15px 5px #000000;">
         <div class="container">
-            <form id="infoform" class="form-inline" method="POST" action="/getTableData">
-                <label for="name">Name:</label>
+            <form id="infoform" class="form-inline" style="width:50%; margin:0 auto;" method="POST" action="/info">
+                <label for="name">Search Name:</label>
                 <input type="text" 
                        class="form-control" 
                        id="name" 
@@ -37,13 +38,17 @@
             </form>
             <!-- <h4>Horizontal Form</h4> -->
             <br>
-            <form id="dropform" class="form-inline" action="/action_page">
-                <label for="poketype">Type:</label>
+            <form id="dropform" class="form-inline" style="width:50%; margin:0 auto;" action="/not_implemented_page">
+                <label for="poketype">Sort by type:&nbsp;</label>
                 <select class="form-control" id="poketype" name="poketype">
-                    <option>Default select</option>
-                  </select>
-                <button type="submit" class="btn btn-danger">Get Info</button>
+                    <option>Select Type</option>
+                    <option value="grass">Grass</option>
+                    <option value="poison">Poison</option>
+                    <option value="fire">Fire</option>
+                </select>
+                <button type="submit" class="btn btn-danger">Search</button>
             </form>
+        </div>
         </div>
     </div>
 </body>

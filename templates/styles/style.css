@@ -32,7 +32,6 @@ p {
 /* header */
 header{
   padding: 20px 20px;
-  /* position: absolute; */
   z-index: 2;
   width: 100%;
   font-family: 'Syne Mono', monospace;
@@ -63,7 +62,6 @@ header nav{
   margin: 0;
   padding: 0;
   overflow: hidden;
-  /* background-color: rgb(5, 96, 121); */
   display: flex;
   justify-content: space-around;
 }

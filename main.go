@@ -1,3 +1,9 @@
+// Jinso Raj
+//Test 43 - PokeDex Full stack 
+// main.go and handlers.go must run  together
+// run command:   go run .
+
+
 package main
 
 import (
@@ -7,13 +13,10 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"os"
-	"html/template"
-	//"go/build"
-	//"./handlers"
 )
 
 
-//struct json out
+//struct json out (full data)
 type AllPokemons struct {
 	Pokemon []struct {
 	  ID            int       `json:"id"`
@@ -42,17 +45,38 @@ type AllPokemons struct {
 	} `json:"pokemon"`
   }
 
+  // json struct (for search by name page. image not mentioned. but needed for UI)
+  type AllPokemonsInfo struct {
+	PokemonInfo []struct {
+	  Num           string    `json:"num"`
+	  Name          string    `json:"name"`
+	  Img           string    `json:"img"`
+	  Type          []string  `json:"type"`
+	  Height        string    `json:"height"`
+	  Weight        string    `json:"weight"`
+	  Weaknesses    []string  `json:"weaknesses"`
+	  NextEvolution []struct {
+		Num  string `json:"num"`
+		Name string `json:"name"`
+	  } `json:"next_evolution,omitempty"`
+	  PrevEvolution []struct {
+		Num  string `json:"num"`
+		Name string `json:"name"`
+	  } `json:"prev_evolution,omitempty"`
+	} `json:"pokemon"`
+  }
 
-// error checking
+
+// error checking fn
 func errorCheck(err error) {
 	if err != nil {
 		fmt.Println(err)
 	}
 }
 
-// full data return
+// full data return - unmarshaling process
 func getAllPokemons() (ap *AllPokemons) {
-	file, err := os.OpenFile("pok2.json", os.O_RDONLY, 0444)
+	file, err := os.OpenFile("pokedex.json", os.O_RDONLY, 0444)
 	errorCheck(err)
 	b, err := ioutil.ReadAll(file)
 	var allPkms AllPokemons
@@ -60,66 +84,33 @@ func getAllPokemons() (ap *AllPokemons) {
 	errorCheck(err)
 	return &allPkms 
 }
-
-
-// Pages (home, api , apitest)
-func homePage(w http.ResponseWriter, r *http.Request){
-	//fmt.Fprintf(w, "Welcome to the HomePage!")
-	http.ServeFile(w, r, "templates/home.html")
-	fmt.Println("/root  homePage used")
-}
-
-func apiPage(w http.ResponseWriter, r *http.Request){
-	res := getAllPokemons()
-	fmt.Fprintf(w, "/api apiPage used - check console")
-	fmt.Println(res.Pokemon[0])
-}
-
-func apiTest(w http.ResponseWriter, r *http.Request){
-	d,_ := ioutil.ReadFile("pok2.json");
-	rawMsg := json.RawMessage(string(d))
-	var objmap map[string]*json.RawMessage
-	err := json.Unmarshal(rawMsg, &objmap)
-	if err != nil {
-		fmt.Println(err)
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	json.NewEncoder(w).Encode(objmap["pokemon"])
-	fmt.Println("Full api loaded @ /test")
-	//fmt.Fprintf(w, "show api")
-	//fmt.Fprintf(w, "/test api")
-}
-
-func getTableData(w http.ResponseWriter, r *http.Request) {
-	resp := getAllPokemons()
-	t, err := template.ParseFiles("templates/table.html")
+// get pokemon info for specific  name match
+func getinfoAllPokemons() (ap *AllPokemonsInfo) {
+	file, err := os.OpenFile("pokedex.json", os.O_RDONLY, 0444)
 	errorCheck(err)
-	t.Execute(w, resp)
-	fmt.Println("Table data loaded @ /getTableData")
-	//http.ServeFile(w, r, "templates/index.html")
+	b, err := ioutil.ReadAll(file)
+	var allPkmsIn AllPokemonsInfo
+	json.Unmarshal(b, &allPkmsIn)
+	errorCheck(err)
+	return &allPkmsIn 
 }
 
 //handling all endpoints
 func handleRequests() {
-	http.HandleFunc("/", homePage)
+	http.HandleFunc("/", HomePage) // home UI
 	//fix style paths in html
 	http.Handle("/styles/", http.FileServer(http.Dir("./templates")))
-	//http.Handle("/handlers/", http.FileServer(http.Dir("../")))
-	http.HandleFunc("/getTableData", getTableData)
-	http.HandleFunc("/api", apiPage)
-	http.HandleFunc("/test", apiTest)
+	http.HandleFunc("/getTableData", GetTableData) // Level A
+	http.HandleFunc("/test", ApiTest) // for test purpose
+	http.HandleFunc("/info", InfoPage) // Level B
 	log.Fatal(http.ListenAndServe(":3000", nil))
 }
 
 
-//main
+//main - calling all handlers
 func main() {
-	// gopath := os.Getenv("GOPATH")
-    // if gopath == "" {
-    //     gopath = build.Default.GOPATH
-    // }
-    // fmt.Println(gopath)
 	handleRequests()
-	//handlers.haiName()
 }
+
+
+//app run command:   go run .
